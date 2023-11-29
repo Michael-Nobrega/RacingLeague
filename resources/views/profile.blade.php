@@ -110,31 +110,42 @@
         @endif
         
     @else
-
-        <div style="border: 3px solid black">
+    <div style="border: 3px solid black">
+        <div id="registerForm" style="display: none;">
             <h2>Register</h2>
             <form action="/registerUser" method="POST">
                 @csrf
                 <input type="text" name="name" placeholder="name">
-                <input type="text" name="email" placeholder="email"> <!-- TODO: Mudar o type para email para ser requerido o @-->
+                <input type="text" name="email" placeholder="email">
                 <input type="password" name="password" placeholder="password">
                 <button type="submit">Register</button>
             </form>
+            <p>Already have an account? <a href="#" onclick="toggleForm()">Log in</a></p>
         </div>
-        <br>
-        <div style="border: 3px solid black">
-            <h2>LogIn</h2>
+        <div id="loginForm">
+            <h2>Log In</h2>
             <form action="/loginUser" method="POST">
                 @csrf
                 <input type="text" name="loginName" placeholder="name">
                 <input type="password" name="loginPassword" placeholder="password">
-                <button type="submit">LogIn</button>
+                <button type="submit">Log In</button>
             </form>
+            <p>Don't have an account? <a href="#" onclick="toggleForm()">Register</a></p>
         </div>
+    </div>
     @endauth
 
 </body>
 @endsection
+<script>
+    function toggleForm() {
+        const registerForm = document.getElementById('registerForm');
+        const loginForm = document.getElementById('loginForm');
+
+        registerForm.style.display = registerForm.style.display === 'none' ? 'block' : 'none';
+        loginForm.style.display = loginForm.style.display === 'none' ? 'block' : 'none';
+    }
+</script>
 <style>
 
     .time-box-container {

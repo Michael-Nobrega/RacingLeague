@@ -15,7 +15,7 @@
       justify-content: center;
       align-items: center;
       flex-direction: column;
-      gap: clamp(3.75rem, 13vw, 11.25rem);
+      gap: clamp(3.75rem, 0vw, 11.25rem);
     }
     #hero-1618 .cs-content {
       /* set text align to left if content needs to be left aligned */

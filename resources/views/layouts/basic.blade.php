@@ -12,7 +12,7 @@
     <header>
         @section('navbar')
             
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3" style="margin-bottom: 25px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-3">
             <div class="container-fluid">
               <img src=img/other/TTTstoke.png style="width: 50px">
               <a class="navbar-brand" href="{{ url('/') }}">Time Trial Turf</a>

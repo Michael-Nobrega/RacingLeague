@@ -1,7 +1,7 @@
 .car-container{
     display: grid;
     grid-template-columns: auto auto auto;
-    background-color: #0075c4;
+    background-color: rgba(0, 117, 196, 0.90);
     padding:10px;
     margin: 10px auto;
     border: 2px solid black;
@@ -39,6 +39,7 @@
     text-shadow: 5px 5px 4px #000000;
     display: block;
   }
+  
 
 @media only screen and (min-width: 0rem) {
   #hero-1619 {

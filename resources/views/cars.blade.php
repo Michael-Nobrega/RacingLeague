@@ -14,10 +14,11 @@
     <h3 class="cs-topper" style="text-align:center">OUR CAR COLLECTION</h3>
     <br>
         @foreach ($cars as $car)
+        <a href="{{ url('/view-car', $car) }}" style="text-decoration: none; color: inherit; display: block;">
         <div class="car-container">
-            <h3 class="car-container-header">Brand: {{$car["brand"]}}   -    Model: {{$car["model"]}}    -    Year: {{$car["year"]}}</h3>
+            <h3 class="car-container-header" style="font-weight: 700">Brand: {{$car["brand"]}}   -    Model: {{$car["model"]}}    -    Year: {{$car["year"]}}</h3>
             <img class="car-container-image" src="{{ asset('/img/' . $car["image"]) }}" alt="{{ $car["brand"] }} Image" style="max-width: 75%;"> 
-            <p class="car-container-right-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit numquam quisquam quos voluptatem, culpa veniam sequi odio ex nam eius molestiae quaerat inventore delectus, dolorem quae iste, mollitia vitae cumque?</p>
+            <p class="car-container-right-text">{{$car["description"]}}</p>
         </div>
         @endforeach
     <br>
