@@ -176,4 +176,27 @@
       border-radius: 8px;
   }
 
-body{margin-top:20px;}
+body{
+  margin-top:20px;
+}
+
+.time-parent {
+  display: grid;
+  grid-template-columns: repeat(4, 0.3fr);
+  grid-template-rows: repeat(4, 0.3fr);
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+  .time-image { 
+    grid-area: 1/2/5/3;
+    outline: 5px solid black;
+  }
+  .time-right-side { 
+    grid-area: 4/3/2/4;
+    background-color: rgba(0, 117, 196, 0.90);
+    border-right: 5px solid black;
+    border-bottom: 5px solid black;
+    border-top: 5px solid black;
+  
+  }
