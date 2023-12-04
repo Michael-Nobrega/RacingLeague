@@ -18,14 +18,14 @@ class TimesController extends Controller
     }
 
     public function UpdateTime (Time $time, Request $request) {
-        if (auth()->user()->id !== $time["user_id"]) {
-            return redirect("/");
+        if (auth()->user()->id !== $time["user_id"] && auth()->user()->role !== 'admin') {
+            return redirect("/profile");
         }
 
         $incomingFields = $request->validate([
-            "user_id" => "required",
-            "car_id" => "required",
-            "lap_time" => "required"
+            "user_id" => "required|integer",
+            "car_id" => "required|integer",
+            "lap_time" => "required|date_format:H:i:s"
         ]);
 
         $incomingFields["user_id"] = strip_tags($incomingFields["user_id"]);
@@ -33,12 +33,12 @@ class TimesController extends Controller
         $incomingFields["lap_time"] = strip_tags($incomingFields["lap_time"]);
 
         $time->update($incomingFields);
-        return redirect("/");
+        return redirect("/profile");
     }
 
     public function showEditScreen(Time $time, Car $car, User $user){
-        if (auth()->user()->role !== 'admin' || auth()->user()->id === $time['user_id']) {
-            return redirect("/");
+        if (auth()->user()->id !== $time["user_id"] && auth()->user()->role !== 'admin') {
+            return redirect("/profile");
         }
         $cars = Car::all();
         $users = User::all();

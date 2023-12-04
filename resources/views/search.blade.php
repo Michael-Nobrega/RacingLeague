@@ -34,6 +34,7 @@
                 <div class="header__item"><a id="Times" class="filter__link filter__link--number" href="#">Time</a></div>
             </div>
             @foreach($response as $result)
+            <a href="{{ url('/view-time', $result) }}" style="text-decoration: none; color: inherit; display: block;font-weight:bold">
             <div class="table-content">	
                 <div class="table-row">
                     <div class="table-data">{{ $result->user->name }}</div>
@@ -61,7 +62,6 @@
 
 
 <style>
-
 .table {
 	width:100%;
 	border:1px solid $color-form-highlight;

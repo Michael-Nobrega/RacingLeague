@@ -48,4 +48,25 @@ class UserController extends Controller
 
         return "Register test";
     }
+
+    public function updateRole(User $user, Request $request) {
+        if (auth()->user()->role !== 'admin') {
+            return redirect("/profile");
+        }
+    
+        $incomingFields = $request->validate([
+            "role" => "required|in:user,admin",
+        ]);
+    
+        $incomingFields["role"] = strip_tags($incomingFields["role"]);
+    
+        $user->update($incomingFields);
+    
+        return redirect("/profile")->with("user", $user);
+    }
+
+    public function showProfile() {
+        $user = auth()->user();
+        return view('your.view.name', compact('user'));
+    }
 }

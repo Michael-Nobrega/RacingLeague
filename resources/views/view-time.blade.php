@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('css/basic.css') }}">
 @section("content")
 <body style="min-height: 800px">
+    <a href="{{ url('/view-car', $time->car) }}" style="text-decoration: none; color: inherit; display: block;">
     <div class="time-parent" style="min-height: 720px">
         <h4 class="cs-topper" style="grid-area: 1/2/2/4;">{{$time->user->name}}'s Lap Time</h4>
         <div class="time-right-side">

@@ -25,7 +25,7 @@ Route::get('/profile', function () {
     $users = [];
 
     if (auth()->check()) {
-        if (auth()->user()->role === 'admin') {
+        if (auth()->user()->role === 'admin' || auth()->user()->role === 'worker') {
             $times = Time::latest()->get();
         } else {
             $times = auth()->user()->usersTimes()->latest()->get();
@@ -37,6 +37,7 @@ Route::get('/profile', function () {
     return view('profile', compact('times', 'cars', 'users'));
 })->name("profile");
 
+Route::put('/update-user-role/{user}', [UserController::class, 'updateRole'])->name('update.user.role');
 Route::post('/registerUser', [UserController::class, 'register']);
 Route::post('/logout', [UserController::class, 'logout']);
 Route::post('/loginUser', [UserController::class, 'login']);

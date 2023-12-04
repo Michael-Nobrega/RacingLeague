@@ -103,6 +103,7 @@
   @php
   $car = $cars[rand(0, count($cars) - 1)];
   @endphp
+  <h4 class="cs-topper1">One random car from our collection</h4>
   <a href="{{ url('/view-car', $car) }}" style="text-decoration: none; color: inherit; display: block;">
   <div class="car-container">
       <h3 class="car-container-header">Brand: {{ $car["brand"] }} - Model: {{ $car["model"] }} - Year: {{ $car["year"] }}</h3>
@@ -113,22 +114,23 @@
 
 @else
 
+@php
+$time = $times[rand(0, count($times) - 1)];
+@endphp
+<h4 class="cs-topper1">Showcasing one random driver's lap time</h4>
 <div class="time-box-container">
-  @php
-  $time = $times[rand(0, count($times) - 1)];
-  @endphp
-      <a href="{{ url('/view-time', $time) }}" style="text-decoration: none; color: inherit; display: block;">
-      <div class="main-timer-box">
-          <div class="top-timer-box">
-              <img class="img-top-rounded-edges" src="{{ asset('/img/' . $time->car["image"]) }}" alt="{{ $time->car["brand"] }} Image">
-          </div>
-          <div class="bottom-timer-box">
-              <h5>Driver: {{$time->user->name}}  ({{$time["user_id"]}})</h5>
-              <h6>{{$time->car->brand}} {{$time->car->model}} ({{$time->car->year}})</h6>
-              <h5>Time</h5>
-              <h5>{{$time["lap_time"]}}</h5>
-          </div>
-      </div>
+  <a href="{{ url('/view-time', $time) }}" style="text-decoration: none; color: inherit; display: block;">
+  <div class="main-timer-box">
+    <div class="top-timer-box">
+      <img class="img-top-rounded-edges" src="{{ asset('/img/' . $time->car["image"]) }}" alt="{{ $time->car["brand"] }} Image">
+    </div>
+    <div class="bottom-timer-box">
+      <h5>Driver: {{$time->user->name}}  ({{$time["user_id"]}})</h5>
+      <h6>{{$time->car->brand}} {{$time->car->model}} ({{$time->car->year}})</h6>
+      <h5>Time</h5>
+      <h5>{{$time["lap_time"]}}</h5>
+    </div>
+  </div>
 </div>
 @endif
 <br>

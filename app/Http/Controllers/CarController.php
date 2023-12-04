@@ -30,6 +30,7 @@ class CarController extends Controller
         $incomingFields["brand"] = strip_tags($incomingFields["brand"]);
         $incomingFields["model"] = strip_tags($incomingFields["model"]);
         $incomingFields["year"] = strip_tags($incomingFields["year"]);
+        $incomingFields["description"] = strip_tags($incomingFields["description"]);
         $incomingFields["image"] = strip_tags($incomingFields["image"]);
 
 
@@ -62,17 +63,20 @@ class CarController extends Controller
             "brand" => "required",
             "model" => "required",
             "year" => "required",
-            "image" => "required"
+            "image" => "required",
+            "description" => "nullable",
         ]);
-
+    
         $incomingFields["brand"] = strip_tags($incomingFields["brand"]);
         $incomingFields["model"] = strip_tags($incomingFields["model"]);
         $incomingFields["year"] = strip_tags($incomingFields["year"]);
         $incomingFields["image"] = strip_tags($incomingFields["image"]);
-
-        Car::create($incomingFields); 
-
+        $incomingFields["description"] = strip_tags($incomingFields["description"]);
+    
+        Car::create($incomingFields);
+    
         return redirect("/");
     }
+    
 
 }

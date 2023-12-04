@@ -9,12 +9,6 @@
 @section("content")
 <body style="color: white; text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;">
     @auth
-        <p>LOGED IN!</p>
-        <form action="/logout" method="POST">
-            @csrf
-            <button>Log out</button>
-        </form>
-
         <div style="padding:10px; margin:10px; border: 5px solid black">
             <div>
                 @if(auth()->user()->role === 'admin')
@@ -24,13 +18,33 @@
                     <input type="text" name="brand" placeholder="brand">
                     <input type="text" name="model" placeholder="model">
                     <input type="text" name="year" placeholder="year">
+                    <input type="text" name="description" placeholder="description">
                     <input type="file" name="image" accept="/img/*">
                     <button>Add Time</button>
                 </form>
+
+                <br>
+
+                <h2>Chnage a User's Permissions</h2>
+                <form action="/updateRole" method="POST">
+                  @csrf
+                  @method("PUT")
+                  <select name="user_id">
+                    @foreach ($users as $user)
+                        <option value="{{ $user->id }}" {{ $user->role == 'user' ? 'selected' : '' }}>{{ $user->name }}</option>
+                    @endforeach
+                  </select>
+                  <select name="role">
+                      <option value="user" {{ auth()->user()->role === 'user' ? 'selected' : '' }}>User</option>
+                      <option value="worker" {{ auth()->user()->role === 'worker' ? 'selected' : '' }}>Worker</option>
+                      <option value="admin" {{ auth()->user()->role === 'admin' ? 'selected' : '' }}>Admin</option>
+                  </select>
+                  <button type="submit">Update Role</button>
+              </form>
             @endif
 
             <h2 style="padding:10px; margin:10px ">Add a new time</h2>
-            <form action="/add-car" method="POST">
+            <form action="/add-time" method="POST">
                 @csrf
                 <select name="user_id">
                     @foreach ($users as $user)
@@ -48,7 +62,6 @@
             </div>
         </div>
 
-        <!-- Resultados dos Times -->
 
         <h1 style="text-align: center">All Lap Times</h1>
         <br>
@@ -63,8 +76,7 @@
                         <h6>{{$time->car->brand}} {{$time->car->model}} ({{$time->car->year}})</h6>
                         <h5>Time</h5>
                         <h5>{{$time["lap_time"]}}</h5>
-                        <!--<a href="/edit-time/{{$time->id}}">Edit</a>-->
-                        @if(auth()->user()->role === 'admin' || auth()->user()->id !== $time["user_id"])
+                        @if(auth()->user()->role === 'admin' || auth()->user()->id === $time["user_id"] || auth()->user()->role === 'worker')
                             <div style="display: flex; gap: 10px;">
                                 <form action="/edit-time/{{$time->id}}" method="GET">
                                     @csrf
@@ -83,14 +95,14 @@
         </div>
         <br>
         <br>
-        <h1 style="text-align: center">All Lap Times</h1>
         <br>
         @if(auth()->user()->role === 'admin')
+        <h1 style="text-align: center">All Cars</h1>
             @foreach ($cars as $car)
             <div class="car-container">
                 <h3 class="car-container-header">Brand: {{$car["brand"]}}   -    Model: {{$car["model"]}}    -    Year: {{$car["year"]}}</h3>
                 <img class="car-container-image" src="{{ asset('/img/' . $car["image"]) }}" alt="{{ $car["brand"] }} Image" style="max-width: 75%;"> 
-                <p class="car-container-right-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit numquam quisquam quos voluptatem, culpa veniam sequi odio ex nam eius molestiae quaerat inventore delectus, dolorem quae iste, mollitia vitae cumque?</p>
+                <p class="car-container-right-text">{{$car["description"]}}</p>
             </div>
                 @if(auth()->user()->role === 'admin' || auth()->user()->id !== $time["user_id"])
                 <div class="car-container-right-text">
@@ -112,25 +124,44 @@
     @else
     <div style="border: 3px solid black">
         <div id="registerForm" style="display: none;">
-            <h2>Register</h2>
-            <form action="/registerUser" method="POST">
-                @csrf
-                <input type="text" name="name" placeholder="name">
-                <input type="text" name="email" placeholder="email">
-                <input type="password" name="password" placeholder="password">
-                <button type="submit">Register</button>
-            </form>
-            <p>Already have an account? <a href="#" onclick="toggleForm()">Log in</a></p>
+            <div class="login-wrapper">
+                <form action="/registerUser" method="POST" class="form">
+                    @csrf
+                  <h2>Sign Up</h2>
+                  <div class="input-group">
+                    <input type="text" name="name" id="loginUser" required />
+                    <label for="loginUser">Name</label>
+                  </div>
+                  <div class="input-group">
+                    <input type="email" name="email" id="loginUser" required/>
+                    <label for="loginEmail">email</label>
+                  </div>
+                  <div class="input-group">
+                    <input type="password" name="password" id="loginPassword" required/>
+                    <label for="loginPassword">Password</label>
+                  </div>
+                  <input type="submit" value="Sign In" class="submit-btn" />
+                  <p>Already have an account?<a href="#" onclick="toggleForm()">Sign Up</a></p>
+                </form>
+              </div>
         </div>
         <div id="loginForm">
-            <h2>Log In</h2>
-            <form action="/loginUser" method="POST">
-                @csrf
-                <input type="text" name="loginName" placeholder="name">
-                <input type="password" name="loginPassword" placeholder="password">
-                <button type="submit">Log In</button>
-            </form>
-            <p>Don't have an account? <a href="#" onclick="toggleForm()">Register</a></p>
+            <div class="login-wrapper">
+                <form action="/loginUser" method="POST" class="form">
+                    @csrf
+                  <h2>Login</h2>
+                  <div class="input-group">
+                    <input type="text" name="loginName" id="loginUser" required />
+                    <label for="loginUser">User Name</label>
+                  </div>
+                  <div class="input-group">
+                    <input type="password" name="loginPassword" id="loginPassword" required/>
+                    <label for="loginPassword">Password</label>
+                  </div>
+                  <input type="submit" value="Login" class="submit-btn" />
+                  <p>Don't have an account?<a href="#" onclick="toggleForm()">Register</a></p>
+                </form>
+              </div>
         </div>
     </div>
     @endauth
@@ -218,6 +249,131 @@
 
     body{margin-top:20px;}
 
+
+    /* login */
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+    .login-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  padding: 80px 40px 40px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  color: #fff;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+}
+.form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: skewX(-26deg);
+  transform-origin: bottom left;
+  border-radius: 10px;
+  pointer-events: none;
+}
+.form img {
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+  width: 100px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+.form h2 {
+  text-align: center;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+  color: white;
+}
+.form .input-group {
+  position: relative;
+}
+.form .input-group input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1rem;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background-color: transparent;
+  color: inherit;
+}
+.form .input-group label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 1rem;
+  pointer-events: none;
+  transition: 0.3s ease-out;
+}
+.form .input-group input:focus + label,
+.form .input-group input:valid + label {
+  transform: translateY(-18px);
+  color: white;
+  font-size: 0.8rem;
+}
+.submit-btn {
+  display: block;
+  margin-left: auto;
+  border: none;
+  outline: none;
+  background: #ff652f;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.forgot-pw {
+  color: inherit;
+}
+
+#forgot-pw {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 1;
+  background: #fff;
+  opacity: 0;
+  transition: 0.6s;
+}
+#forgot-pw:target {
+  height: 100%;
+  opacity: 1;
+}
+.close {
+  position: absolute;
+  right: 1.5rem;
+  top: 0.5rem;
+  font-size: 2rem;
+  font-weight: 900;
+  text-decoration: none;
+  color: inherit;
+}
     
 </style>
 </html>

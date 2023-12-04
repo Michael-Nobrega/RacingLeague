@@ -39,6 +39,17 @@
     text-shadow: 5px 5px 4px #000000;
     display: block;
   }
+  .cs-topper1 {
+    font-size: 65px;
+    line-height: 1.2em;
+    text-align: center;
+    font-weight: 700;
+    color: whitesmoke;
+    text-shadow: 5px 5px 4px #000000;
+    display: block;
+  }
+
+  
   
 
 @media only screen and (min-width: 0rem) {
