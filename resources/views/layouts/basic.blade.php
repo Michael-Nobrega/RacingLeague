@@ -22,7 +22,7 @@
               <div class=" collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto " >
                   <li class="nav-item" style="margin-top:5px">
-                    <a class="nav-link mx-2 active" aria-current="page"href="{{ url('/') }}">Home</a>
+                    <a class="nav-link mx-2 active" href="{{ url('/') }}">Home</a>
                   </li>
                   <li class="nav-item" style="margin-top:5px">
                     <a class="nav-link mx-2" href="{{ url('cars') }}">Cars</a>
@@ -44,7 +44,7 @@
                             {{ auth()->user()->name }}
                         </a>
                         <div class="dropdown-menu" aria-labelledby="userDropdown">
-                          <a class="nav-link mx-2" href="{{ url('/profile') }}">Profile</a>
+                          <a class="nav-link mx-2" style="color:black" href="{{ url('/profile') }}">Profile</a>
                           <form action="/logout" method="POST">
                               @csrf
                               <button class="dropdown-item" type="submit">Log out</button>

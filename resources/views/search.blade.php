@@ -11,9 +11,9 @@
 <br>
 <h3 class="cs-topper" style="text-align:center">Search</h3>
 <div style="display: flex; justify-content: center; margin-top:10%;margin-bottom:5%">
-    <form action="{{ url("search") }}" method="get" style="width: 50%; display: flex;height:7%" onsubmit="showTable(); return false;">
-        <input type="search" name="search" placeholder="Search" class="form-control border-primary me-2">
-        <button class="btn btn-primary text-white" type="submit" value="Search">Search</button>
+    <form action="{{ url("search") }}" method="get" style="width: 50%; display: flex; height:7%;" onsubmit="showTable();">
+        <input type="search" name="search" id="searchInput" placeholder="Search" class="form-control border-primary me-2">
+        <button class="btn btn-primary text-white" type="submit">Search</button>
         <button class="btn btn-primary text-white" type="submit" name="order_by" value="asc">
             <img src="/img/icons/down-arrow.png" style="width:25px;height:25px;">
         </button>
@@ -25,7 +25,7 @@
 <br>
 <br>
 <br>
-<div id="tableSection" style="display: none;">
+<div id="tableSection">
     <div class="container">
         <div class="table">
             <div class="table-header">
@@ -35,14 +35,14 @@
             </div>
             @foreach($response as $result)
             <a href="{{ url('/view-time', $result) }}" style="text-decoration: none; color: inherit; display: block;font-weight:bold">
-            <div class="table-content">	
+            <div class="table-content">    
                 <div class="table-row">
                     <div class="table-data">{{ $result->user->name }}</div>
                     <div class="table-data">{{ $result->car->brand }} {{ $result->car->model }} ({{ $result->car->year }})</div>
                     <div class="table-data">{{ $result->lap_time }}</div>
                 </div>
-            </div>	
-            @endforeach	
+            </div>    
+            @endforeach    
         </div>
     </div>
 </div>
@@ -53,8 +53,19 @@
 <br>
 <br>
 <script>
+    var isTableVisible = false;
+
     function showTable() {
-        document.getElementById('tableSection').style.display = 'block';
+        // Toggle the table visibility
+        isTableVisible = !isTableVisible;
+
+        if (isTableVisible) {
+            // Make the table section visible
+            document.getElementById('tableSection').style.display = 'block';
+        } else {
+            // Hide the table section
+            document.getElementById('tableSection').style.display = 'none';
+        }
     }
 </script>
 
@@ -63,37 +74,37 @@
 
 <style>
 .table {
-	width:100%;
-	border:1px solid $color-form-highlight;
+    width:100%;
+    border:1px solid $color-form-highlight;
 }
 
 .table-header {
-	display:flex;
-	width:100%;
-	background:#000;
-	padding:($half-spacing-unit * 1.5) 0;
+    display:flex;
+    width:100%;
+    background:#000;
+    padding:($half-spacing-unit * 1.5) 0;
 }
 
 .table-row {
-	display:flex;
-	width:100%;
-	padding:($half-spacing-unit * 1.5) 0;
+    display:flex;
+    width:100%;
+    padding:($half-spacing-unit * 1.5) 0;
 }
 
 .table-data, .header__item {
-	flex: 1 1 20%;
-	text-align:center;
+    flex: 1 1 20%;
+    text-align:center;
 }
 
 .header__item {
-	text-transform:uppercase;
+    text-transform:uppercase;
 }
 
 .filter__link {
-	color:white;
-	text-decoration: none;
-	position:relative;
-	display:inline-block;
+    color:white;
+    text-decoration: none;
+    position:relative;
+    display:inline-block;
 }
 
 </style>

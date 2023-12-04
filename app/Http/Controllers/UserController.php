@@ -37,8 +37,8 @@ class UserController extends Controller
     public function register(Request $request){
         $incomingFields = $request->validate([
             "name" => "required",
-            "email" => ["required", Rule::unique("users", "email")],//TODO: trocar por ["required","min:3" , "max:10"] dependente do tipo de informacao
-            "password" => "required"
+            "email" => ["required", Rule::unique("users", "email")],
+            "password" => ["required","min:8"]
         ]);
 
         $incomingFields["password"] = bcrypt($incomingFields["password"]);//bcrypt -> encrypta a password

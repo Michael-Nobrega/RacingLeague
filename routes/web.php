@@ -65,10 +65,13 @@ Route::delete("/delete-time/{time}", [TimesController::class, "deleteTime"]);
 
 
 Route::get('/search', function () {
+    // You might want to remove these lines if they are not needed in this context
     $cars = Car::all();
     $times = Time::all();
+
     return view('search', compact('times', 'cars'));
 });
+
 Route::get("/search", [TimesController::class, "search"]);
 
 
