@@ -71,7 +71,6 @@ Route::get('/search', function () {
 
     return view('search', compact('times', 'cars'));
 });
-
 Route::get("/search", [TimesController::class, "search"]);
 
 

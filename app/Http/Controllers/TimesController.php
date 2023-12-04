@@ -60,7 +60,7 @@ class TimesController extends Controller
 
         Time::create($incomingFields); 
 
-        return redirect("/");
+        return redirect("/profile");
     }
 
     public function search(Request $request)

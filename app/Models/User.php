@@ -48,5 +48,10 @@ class User extends Authenticatable
         return $this->hasMany(Time::class, "user_id");
     }
 
+    public function times()
+    {
+        return $this->hasMany(Time::class);
+    }
+
 
 }

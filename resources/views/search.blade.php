@@ -56,14 +56,11 @@
     var isTableVisible = false;
 
     function showTable() {
-        // Toggle the table visibility
         isTableVisible = !isTableVisible;
 
         if (isTableVisible) {
-            // Make the table section visible
             document.getElementById('tableSection').style.display = 'block';
         } else {
-            // Hide the table section
             document.getElementById('tableSection').style.display = 'none';
         }
     }
