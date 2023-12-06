@@ -10,6 +10,11 @@
 @section("content")
 <body style="color: white; text-shadow: 1px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;">
     @auth
+    @if(session('msg'))
+        <div class="alert alert-success">
+            {{ session('msg') }}
+        </div>
+    @endif
         <div style="padding:10px; margin:10px; border: 5px solid black">
             <div>
                 @if(auth()->user()->role === 'admin')

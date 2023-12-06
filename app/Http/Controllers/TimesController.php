@@ -14,12 +14,12 @@ class TimesController extends Controller
         if (auth()->user()->id === $time["user_id"] || auth()->user()->role === 'admin') {
             $time->delete();
         }
-        return redirect("/");
+        return redirect("/")->with("msg","Sucessfully deleted the laptime");
     }
 
     public function UpdateTime (Time $time, Request $request) {
         if (auth()->user()->id !== $time["user_id"] && auth()->user()->role !== 'admin') {
-            return redirect("/profile");
+            return redirect("/profile")->with("msg","You dont have permission to complete this action");
         }
 
         $incomingFields = $request->validate([
@@ -33,17 +33,17 @@ class TimesController extends Controller
         $incomingFields["lap_time"] = strip_tags($incomingFields["lap_time"]);
 
         $time->update($incomingFields);
-        return redirect("/profile");
+        return redirect("/profile")->with("msg","laptime updated sucessfully");
     }
 
     public function showEditScreen(Time $time, Car $car, User $user){
         if (auth()->user()->id !== $time["user_id"] && auth()->user()->role !== 'admin') {
-            return redirect("/profile");
+            return redirect("/profile")->with("msg","You dont have permission to complete this action");
         }
         $cars = Car::all();
         $users = User::all();
     
-        return view("edit-time", ["time" => $time, "car" => $car, "cars" => $cars, "users" => $users]);
+        return view("edit-time", ["time" => $time, "car" => $car, "cars" => $cars, "users" => $users, "msg","You dont have permission to complete this action"]);
     }
 
     public function addTime(Request $request)
@@ -60,7 +60,7 @@ class TimesController extends Controller
 
         Time::create($incomingFields); 
 
-        return redirect("/profile");
+        return redirect("/profile")->with("msg","Laptime added sucessfully");
     }
 
     public function search(Request $request)

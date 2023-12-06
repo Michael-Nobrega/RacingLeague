@@ -17,7 +17,7 @@ class CarController extends Controller
 
     public function UpdateCar(Car $car, Request $request) {
         if (auth()->user()->role !== 'admin') {
-            return redirect()->route('home')->with('error', 'You do not have permission to update this time entry.');
+            return redirect()->route('home')->with("msg","You dont have permission to complete this action");
         }
 
         $incomingFields = $request->validate([
@@ -42,12 +42,12 @@ class CarController extends Controller
         }
 
         $car->update($incomingFields);
-        return redirect("/");
+        return redirect("/")->with("msg","Car information has been updated");
     }
 
     public function showEditScreen(Car $car){
         if (auth()->user()->role != "admin") {
-            return redirect()->route('home')->with('error', 'You do not have permission to update this time entry.');
+            return redirect()->route('home')->with("msg","You dont have permission to view this page");
         }
 
         return view("edit-car", ["car" => $car]);
@@ -75,7 +75,7 @@ class CarController extends Controller
     
         Car::create($incomingFields);
     
-        return redirect("/");
+        return redirect("/")->with("msg","Car added sucessfully");
     }
     
 

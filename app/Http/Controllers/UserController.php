@@ -25,7 +25,7 @@ class UserController extends Controller
 
     public function logout(){
         auth()->logout();
-        return redirect("/profile");
+        return redirect("/profile")->with("msg","Logged Out");
     }
 
     public function register(Request $request){
@@ -38,14 +38,12 @@ class UserController extends Controller
         $incomingFields["password"] = bcrypt($incomingFields["password"]);//bcrypt -> encrypta a password
         $user = User::create($incomingFields);
         auth()->login($user);
-        return redirect("/profile");
-
-        return "Register test";
+        return redirect("/profile")->with("msg","Sucessfully Registered");
     }
 
     public function updateRole(User $user, Request $request) {
         if (auth()->user()->role !== 'admin') {
-            return redirect("/profile");
+            return redirect("/profile")->with("msg","You dont have permission to complete this action");
         }
     
         $incomingFields = $request->validate([
@@ -56,7 +54,7 @@ class UserController extends Controller
     
         $user->update($incomingFields);
     
-        return redirect("/profile")->with("user", $user);
+        return redirect("/profile")->with(["user" => $user,"msg" => "User updated Sucessfully",]);;
     }
 
     public function showProfile() {
